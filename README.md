@@ -81,15 +81,17 @@ sys     0m0.026s
 
 The requests all still arrive in the order 5-4-3-2-1 but the order of the output will usually be 3-4-5-1-2. This is because the thread pool will grow on-demand up to 3 threads. The determinism here is caused by the `sleep 0.1` in `hammer.sh`. It causes the order to be:
 
-0.0s Req 5 queued for thread 0
-0.1s Req 4 queued for thread 1
-0.2s Req 3 queued for thread 2
-0.3s Req 2 blocks on the empty thread pool
-0.4s Req 1 blocks on the empty thread pool
-3.2s Thread 2 wakes up, finishes req 3, picks up req 2
-4.1s Thread 1 wakes up, finishes req 4, picks up req 1
-5.1s Thread 1 wakes up, finishes req 1
-5.2s Thread 2 wakes up, finishes req 2
+|time | event|
+|-----|------|
+|0.0s | Req 5 queued for thread 0|
+|0.1s | Req 4 queued for thread 1|
+|0.2s | Req 3 queued for thread 2|
+|0.3s | Req 2 blocks on the empty thread pool|
+|0.4s | Req 1 blocks on the empty thread pool|
+|3.2s | Thread 2 wakes up, finishes req 3, picks up req 2|
+|4.1s | Thread 1 wakes up, finishes req 4, picks up req 1|
+|5.1s | Thread 1 wakes up, finishes req 1|
+|5.2s | Thread 2 wakes up, finishes req 2|
 
 The precise order and timings are subject to the randomness of the thread creation overhead, operating system schedule, hardware interupts, etc. Therefore the order might come out slightly differently in some cases. You could multiply all the sleep times by 10 to avoid that but it would be painful to run the demo :)
 
