@@ -62,7 +62,7 @@ sys     0m0.027s
 All of the requests arrive before 1 second has elapsed. The thread pool is never exhausted. Thus, each request is handled by a separate thread. Each thread wakes up and outputs how long it has slept before the next thread wakes up. Therefore the output is predictable.
 
 
-Restart the server once more and make it use between 1 and 2 threads:
+Restart the server once more and make it use between 1 and 3 threads:
 
 ```
 SECRET_KEY_BASE=c9bea0e4-16c4-4256-b0dc-7ad013b18705 bex puma --environment production -w 1 -t 1:3
